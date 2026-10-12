@@ -114,8 +114,7 @@
     "**/node_modules": true,
     "**/dist": true,
     "**/build": true,
-    "**/.git": true,
-    "**/bun.lock": true
+    "**/.git": true
   },
   "workbench.statusBar.visible": false,
   "zenMode.hideLineNumbers": false,
