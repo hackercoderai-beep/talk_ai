@@ -35,7 +35,7 @@ export function FormBase({
     </>
   );
   const errorElem = isInvalid && (
-    <FieldError errors={field.state.meta.errors} />
+    <FieldError errors={field.state.meta.errors} id={`${field.name}-error`} />
   );
 
   return (

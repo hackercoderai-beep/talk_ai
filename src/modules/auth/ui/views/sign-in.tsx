@@ -20,7 +20,7 @@ export function SignInView() {
             <Image
               alt="Logo"
               className={
-                "object-contain drop-shadow [0_0_20px_rgba(16,185,129,0.4)]"
+                "object-contain drop-shadow-[0_0_20px_rgba(16,185,129,0.4)]"
               }
               height={100}
               src="/logo.svg"

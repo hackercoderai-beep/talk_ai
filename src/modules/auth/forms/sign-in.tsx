@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { type FormEvent, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import {
   CardContent,
@@ -66,9 +67,16 @@ export function SignInForm() {
   }
 
   const form = useSignInForm(onSubmit);
+  const handleSubmit = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      form.handleSubmit();
+    },
+    [form.handleSubmit]
+  );
 
   return (
-    <form className="min-h-lg max-w-lg space-y-4" onSubmit={form.handleSubmit}>
+    <form className="min-h-lg max-w-lg space-y-4" onSubmit={handleSubmit}>
       <CardHeader>
         <CardTitle>Welcome back</CardTitle>
         <CardDescription>Login to continue</CardDescription>
@@ -111,10 +119,10 @@ export function SignInForm() {
         <Divider />
 
         <div className="flex w-full items-center justify-center gap-2">
-          <Button className="flex-1" variant="outline">
+          <Button className="flex-1" type="button" variant="outline">
             Continue with Google
           </Button>
-          <Button className="flex-1" variant="outline">
+          <Button className="flex-1" type="button" variant="outline">
             Continue with Github
           </Button>
         </div>
