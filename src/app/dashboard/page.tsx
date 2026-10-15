@@ -11,7 +11,7 @@ export default function DashboardPage() {
 
   const handleSignOut = async () => {
     await authClient.signOut();
-    router.push("/login");
+    router.push("/sign-in");
   };
 
   if (isPending) {
