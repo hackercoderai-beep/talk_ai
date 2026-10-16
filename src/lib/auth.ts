@@ -5,12 +5,22 @@ import * as schema from "@/db/schema";
 import { db } from "@/lib/db";
 
 export const auth = betterAuth({
-    database: drizzleAdapter(db, {
-        provider: "pg",
-        schema: schema,
-    }),
-    emailAndPassword: {
-        enabled: true,
+  database: drizzleAdapter(db, {
+    provider: "pg",
+    schema: schema,
+  }),
+  socialProviders: {
+    github: {
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
     },
-    plugins: [nextCookies()], // make sure this is the last plugin in the array
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    },
+  },
+  emailAndPassword: {
+      enabled: true,
+  },
+  plugins: [nextCookies()], // make sure this is the last plugin in the array
 });
