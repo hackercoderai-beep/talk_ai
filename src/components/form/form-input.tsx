@@ -17,13 +17,14 @@ export function FormInput({ type, placeholder, ...props }: FormInputProps) {
   return (
     <FormBase {...props}>
       <Input
+        aria-describedby={isInvalid ? `${field.name}-error` : undefined}
         aria-invalid={isInvalid}
-        placeholder={placeholder}
-        type={type}
         id={field.name}
         name={field.name}
         onBlur={field.handleBlur}
         onChange={(e) => field.handleChange(e.target.value)}
+        placeholder={placeholder}
+        type={type}
         value={field.state.value}
       />
     </FormBase>

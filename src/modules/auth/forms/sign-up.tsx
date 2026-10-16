@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { type FormEvent, useCallback } from "react";
 import {
   CardContent,
   CardDescription,
@@ -63,9 +64,16 @@ export function SignUpForm() {
   }
 
   const form = useSignUpForm(onSubmit);
+  const handleSubmit = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      form.handleSubmit();
+    },
+    [form.handleSubmit]
+  );
 
   return (
-    <form className="min-h-lg max-w-lg space-y-4" onSubmit={form.handleSubmit}>
+    <form className="min-h-lg max-w-lg space-y-4" onSubmit={handleSubmit}>
       <CardHeader>
         <CardTitle>Create an Account</CardTitle>
         <CardDescription>

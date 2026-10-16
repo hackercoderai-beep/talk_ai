@@ -14,7 +14,7 @@ export default function Home() {
       if (session) {
         router.push("/dashboard");
       } else {
-        router.push("/login");
+        router.push("/sign-in");
       }
     }
   }, [session, isPending, router]);

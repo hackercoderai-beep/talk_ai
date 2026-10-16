@@ -1,7 +1,6 @@
 import { SignInView } from "@/modules/auth/ui/views/sign-in";
 
-export default function LoginPage() {
-  return (
-    <SignInView />
-  );
+export default async function LoginPage() {
+
+  return <SignInView />;
 }

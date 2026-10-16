@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 
 export async function proxy(request: NextRequest) {
@@ -6,20 +6,16 @@ export async function proxy(request: NextRequest) {
     headers: request.headers,
   });
 
-  const pathname = request.nextUrl.pathname;
+  const { pathname } = request.nextUrl;
 
   // Protect dashboard routes
-  if (pathname.startsWith("/dashboard")) {
-    if (!session) {
-      return NextResponse.redirect(new URL("/sign-in", request.url));
-    }
+  if (pathname.startsWith("/dashboard") && !session) {
+    return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 
   // Redirect authenticated users away from auth pages
-  if (pathname === "/sign-in" || pathname === "/sign-up") {
-    if (session) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
-    }
+  if ((pathname === "/sign-in" || pathname === "/sign-up") && session) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   // Redirect root to dashboard if authenticated, sign-in if not
