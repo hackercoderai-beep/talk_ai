@@ -4,8 +4,8 @@ import { authenticated } from "@/hooks/use-authenticated";
 import DashboardView from "@/modules/home/views/ui/dashboard";
 
 async function AuthenticatedDashboard() {
-  await authenticated();
-  return <DashboardView />;
+  const session = await authenticated();
+  return <DashboardView session={session} />;
 }
 
 export default function DashboardPage() {

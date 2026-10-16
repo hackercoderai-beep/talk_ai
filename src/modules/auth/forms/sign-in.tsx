@@ -63,7 +63,6 @@ export function SignInForm() {
       );
     } catch {
       // Error toast is already shown by toast.promise
-    } finally {
       setIsPending(false);
     }
   }, []);

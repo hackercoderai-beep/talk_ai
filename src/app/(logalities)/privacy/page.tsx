@@ -1,5 +1,3 @@
 export default function PrivacyPage() {
-  return (
-    <p>Comming Soon</p>
-  );
+  return <p>Coming Soon</p>;
 }
