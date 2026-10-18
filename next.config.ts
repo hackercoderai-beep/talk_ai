@@ -3,6 +3,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   cacheComponents: true,
   devIndicators: false,
+  experimental: {
+    typedEnv: true,
+  },
   partialPrefetching: true,
   reactCompiler: true,
   turbopack: {
@@ -13,9 +16,6 @@ const nextConfig: NextConfig = {
       },
     },
   },
-  experimental: {
-    typedEnv: true,
-  }
 };
 
 export default nextConfig;

@@ -1,17 +1,22 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "@/modules/dashboard/ui/components/dashboard-sidebar";
 
 type Props = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 export default function DashboardLayout({ children }: Props) {
-  return <SidebarProvider>
-    <DashboardSidebar />
-    <main className="flex flex-col h-screen w-screen bg-muted">
-      {children}
-    </main>
-  </SidebarProvider>
+  return (
+    <SidebarProvider>
+      <DashboardSidebar />
+      <main className="flex h-screen w-screen flex-col bg-muted">
+        <header className="flex h-12 items-center px-4 md:hidden">
+          <SidebarTrigger />
+        </header>
+        {children}
+      </main>
+    </SidebarProvider>
+  );
 }

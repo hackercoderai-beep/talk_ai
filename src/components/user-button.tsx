@@ -128,7 +128,7 @@ function UserDropdown({
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup className="space-y-2">
-            <DropdownMenuItem>
+            <DropdownMenuItem disabled>
               <CreditCardIcon />
               Billing
             </DropdownMenuItem>
