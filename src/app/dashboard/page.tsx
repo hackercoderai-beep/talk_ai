@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { authenticated } from "@/hooks/use-authenticated";
-import DashboardView from "@/modules/home/views/ui/dashboard";
+import DashboardView from "@/modules/dashboard/views/ui";
 
 async function AuthenticatedDashboard() {
   const session = await authenticated();
