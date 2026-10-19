@@ -54,22 +54,20 @@ export function DashboardNavbar() {
             <Tooltip>
               <TooltipTrigger
                 render={
-                  <>
-                    <InputGroupAddon align="inline-start">
-                      <SearchIcon className="size-3.5" />
-                    </InputGroupAddon>
-                    <InputGroupAddon align="inline-end">
-                      <Kbd
-                        className={
-                          "pointer-events-none inline-flex h-5 select-none items-center gap-1 bg-muted font-medium text-muted-foreground"
-                        }
-                      >
-                        <span>&#8984;</span> {keyboardCommandKey.toUpperCase()}
-                      </Kbd>
-                    </InputGroupAddon>
-                  </>
+                  <InputGroupAddon align="inline-start">
+                    <SearchIcon className="size-3.5" />
+                  </InputGroupAddon>
                 }
               />
+              <InputGroupAddon align="inline-end">
+                <Kbd
+                  className={
+                    "pointer-events-none inline-flex h-5 select-none items-center gap-1 bg-muted font-medium text-muted-foreground"
+                  }
+                >
+                  <span>&#8984;</span> {keyboardCommandKey.toUpperCase()}
+                </Kbd>
+              </InputGroupAddon>
               <TooltipContent>Command Palette</TooltipContent>
             </Tooltip>
           </InputGroup>

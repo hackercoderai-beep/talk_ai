@@ -97,7 +97,7 @@
   "editor.renderControlCharacters": false,
   "editor.renderWhitespace": "none",
   "breadcrumbs.enabled": true,
-  "workbench.editor.showTabs": "single",
+  "workbench.editor.showTabs": "multiple",
   "workbench.activityBar.location": "hidden",
   "workbench.layoutControl.enabled": false,
   "workbench.sash.size": 1,
