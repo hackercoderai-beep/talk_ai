@@ -240,7 +240,7 @@ function MobileUserDetails({
 }: Pick<UserMenuProps, "email" | "image" | "name">) {
   return (
     <DrawerHeader className="flex-row items-center gap-3 p-6 pb-4 text-left">
-      <UserAvatar className="size-10" image={image} name={name} />
+      <UserAvatar className="size-8" image={image} name={name} />
       <div className="min-w-0">
         <DrawerTitle className="truncate">{name}</DrawerTitle>
         <DrawerDescription className="truncate">{email}</DrawerDescription>
