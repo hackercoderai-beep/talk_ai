@@ -29,7 +29,6 @@ export function SignUpForm() {
       await toast.promise(
         (async () => {
           const { data, error } = await authClient.signUp.email({
-            callbackURL: "/dashboard",
             email: formData.email,
             name: formData.name,
             password: formData.password,
@@ -56,11 +55,12 @@ export function SignUpForm() {
           },
         }
       );
-
-      router.push("/dashboard");
     } catch {
       // Error toast is already shown by toast.promise
+      return;
     }
+
+    router.push("/dashboard?welcome=1");
   }
 
   const form = useSignUpForm(onSubmit);
