@@ -3,12 +3,22 @@ import { Spinner } from "@/components/ui/spinner";
 import { authenticated } from "@/hooks/use-authenticated";
 import DashboardView from "@/modules/dashboard/views/ui";
 
-async function AuthenticatedDashboard() {
-  const session = await authenticated();
-  return <DashboardView session={session} />;
+async function AuthenticatedDashboard({
+  searchParams,
+}: {
+  searchParams: Promise<{ welcome?: string | string[] }>;
+}) {
+  const [session, params] = await Promise.all([authenticated(), searchParams]);
+  return (
+    <DashboardView session={session} showWelcome={params.welcome === "1"} />
+  );
 }
 
-export default function DashboardPage() {
+export default function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ welcome?: string | string[] }>;
+}) {
   return (
     <Suspense
       fallback={
@@ -17,7 +27,7 @@ export default function DashboardPage() {
         </main>
       }
     >
-      <AuthenticatedDashboard />
+      <AuthenticatedDashboard searchParams={searchParams} />
     </Suspense>
   );
 }
