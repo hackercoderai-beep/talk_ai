@@ -116,7 +116,7 @@
     "**/build": true,
     "**/.git": true
   },
-  "workbench.statusBar.visible": false,
+  "workbench.statusBar.visible": true,
   "zenMode.hideLineNumbers": false,
   "zenMode.hideStatusBar": true,
   "zenMode.centerLayout": true,
