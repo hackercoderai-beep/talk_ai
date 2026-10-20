@@ -3,11 +3,11 @@ import type { Dispatch, SetStateAction } from "react";
 
 import {
   Command,
-  CommandDialog,
   CommandEmpty,
   CommandInput,
   CommandItem,
   CommandList,
+  CommandResponsiveDialog,
 } from "@/components/ui/command";
 import { Kbd } from "@/components/ui/kbd";
 
@@ -18,7 +18,7 @@ type Props = {
 
 export function DashboardCommand(props: Props) {
   return (
-    <CommandDialog onOpenChange={props.setOpen} open={props.open}>
+    <CommandResponsiveDialog onOpenChange={props.setOpen} open={props.open}>
       <Command className="flex gap-3" label="Search conversations and agents">
         <CommandInput placeholder="Search conversations and agents..." />
         <CommandList>
@@ -29,7 +29,10 @@ export function DashboardCommand(props: Props) {
             </p>
           </CommandEmpty>
           <CommandItem className="my-1 cursor-pointer">
-            Bob The Agent
+            Bob The Builder
+          </CommandItem>
+          <CommandItem className="my-1 cursor-pointer">
+            Jeff Bezos of Amazon
           </CommandItem>
         </CommandList>
         <div className="flex items-center justify-end border-t px-3 py-2">
@@ -37,6 +40,6 @@ export function DashboardCommand(props: Props) {
           <Kbd>Esc</Kbd>
         </div>
       </Command>
-    </CommandDialog>
+    </CommandResponsiveDialog>
   );
 }
