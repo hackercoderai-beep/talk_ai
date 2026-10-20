@@ -64,7 +64,7 @@ export function DashboardSidebar() {
             alt="talk ai"
             className="size-9"
             height={36}
-            src="logo.svg"
+            src="/logo.svg"
             width={36}
           />
           <p className="font-semibold text-2xl text-white group-data-[state=collapsed]:hidden">

@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { Spinner } from "@/components/ui/spinner";
-import DashboardView from "@/modules/dashboard/views/ui";
+import DashboardView from "@/modules/dashboard/ui/dashboard-view";
 
 async function AuthenticatedDashboard() {
   return <DashboardView />;
