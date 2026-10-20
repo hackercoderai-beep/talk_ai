@@ -63,13 +63,12 @@ export function DashboardWelcomeDialog({
         className="max-h-[calc(100dvh-2rem)] w-[calc(100%-2.5rem)] gap-4 overflow-y-auto p-4 sm:max-h-none sm:w-full sm:gap-5 sm:overflow-visible sm:p-8"
         showCloseButton={false}
       >
-        <div className="overflow-hidden rounded-lg bg-muted">
+        <div className="overflow-hidden rounded-t-lg bg-muted">
           <Image
             alt="The Office celebrating with a party"
             className="aspect-2/1 w-full object-cover sm:aspect-video"
             height={270}
             src="/welcome-office-party-v1.gif"
-            unoptimized
             width={480}
           />
         </div>

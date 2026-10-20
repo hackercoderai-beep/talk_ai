@@ -39,6 +39,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "@/components/ui/toast";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { authClient } from "@/lib/auth-client";
+import { DashboardWelcomeDialog } from "@/modules/dashboard/ui/components/dashboard-welcome-dialog";
 import { useDashboardWelcome } from "@/modules/dashboard/ui/components/dashboard-welcome-context";
 
 export function UserButton() {
@@ -72,15 +73,22 @@ export function UserButton() {
   }
 
   return (
-    <UserMenu
-      email={session.user.email}
-      image={session.user.image}
-      isCollapsed={state === "collapsed"}
-      isMobile={isMobile}
-      name={session.user.name}
-      onShowOnboarding={handleShowOnboarding}
-      onSignOut={handleSignOut}
-    />
+    <>
+      <UserMenu
+        email={session.user.email}
+        image={session.user.image}
+        isCollapsed={state === "collapsed"}
+        isMobile={isMobile}
+        name={session.user.name}
+        onShowOnboarding={handleShowOnboarding}
+        onSignOut={handleSignOut}
+      />
+      <DashboardWelcomeDialog
+        initiallyOpen={false}
+        userId={session.user.id}
+        userName={session.user.name}
+      />
+    </>
   );
 }
 
