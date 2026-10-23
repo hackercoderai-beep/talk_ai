@@ -1,18 +1,15 @@
 import { OctagonAlertIcon } from "lucide-react";
 
-type Props = {
-  title: string;
-  description: string;
-};
-
-export function AgentErrorView(props: Props) {
+export function AgentErrorView() {
   return (
     <div className="flex flex-1 items-center justify-center px-8 py-4">
       <div className="flex flex-col items-center justify-center gap-y-6 rounded-lg bg-background p-10 shadow-sm">
         <OctagonAlertIcon className="text-destructive" />
         <div className="flex flex-col gap-y-2 text-center">
-          <h6 className="font-medium text-lg">{props.title}</h6>
-          <p className="text-sm">{props.description}</p>
+          <h6 className="font-medium text-lg">
+            Failed to load agent information.
+          </h6>
+          <p className="text-sm">Error Loading Agents</p>
         </div>
       </div>
     </div>

@@ -28,8 +28,10 @@ export function GeneratedAvatar(props: Props) {
   }
   return (
     <Avatar className={cn(props.className)}>
-      <AvatarImage alt={"Avatar"} src={avatar.toDataUri()} />
-      <AvatarFallback>{props.seed.charAt(0).toUpperCase()}</AvatarFallback>
+      <AvatarImage alt={`${props.seed} avatar`} src={avatar.toDataUri()} />
+      <AvatarFallback>
+        {props.seed.charAt(0).toUpperCase() || "?"}
+      </AvatarFallback>
     </Avatar>
   );
 }

@@ -6,11 +6,16 @@ import { useTRPC } from "@/trpc/client";
 export function AgentView() {
   const trpc = useTRPC();
   const { data } = useSuspenseQuery(trpc.agents.getMany.queryOptions());
-  const displayData = JSON.stringify(data);
 
   return (
     <div className="p-6">
-      <p className="max-w-prose">{displayData}</p>
+      <p
+        className={
+          "wrap-break-word whitespace-pre-wrap font-mono text-muted-foreground text-sm leading-relaxed"
+        }
+      >
+        {JSON.stringify(data, null, 2)}
+      </p>
     </div>
   );
 }

@@ -1,16 +1,10 @@
 "use client";
 
 import { cn } from "cn";
-import {
-  BotIcon,
-  type LucideIcon,
-  StarIcon,
-  VideoIcon,
-} from "lucide-react";
+import { BotIcon, type LucideIcon, StarIcon, VideoIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { UserButton } from "@/components/user-button";
 import { Separator } from "@/components/ui/separator";
 import {
   Sidebar,
@@ -25,6 +19,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { UserButton } from "@/components/user-button";
 
 type actionList = {
   icon: LucideIcon;
