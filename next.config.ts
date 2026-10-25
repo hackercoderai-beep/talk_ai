@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   devIndicators: false,
   experimental: {
+    agentUpgrade: "security",
     typedEnv: true,
   },
   async headers() {
