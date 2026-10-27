@@ -1,6 +1,6 @@
 // import { TRPCError } from "@trpc/server";
 
-import { eq } from "drizzle-orm";
+import { eq, getTableColumns, sql } from "drizzle-orm";
 import { z } from "zod";
 import { agents } from "@/db/schema";
 import { db } from "@/lib/db";
@@ -37,7 +37,10 @@ export const agentsRouter = createTRPCRouter({
     )
     .query(async ({ input }) => {
       const [existingAgent] = await db
-        .select()
+        .select({
+          meetingCount: sql<number>`5`,
+          ...getTableColumns(agents),
+        })
         .from(agents)
         .where(eq(agents.id, input.id));
 
