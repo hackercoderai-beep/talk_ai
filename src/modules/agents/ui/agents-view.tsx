@@ -1,9 +1,6 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { EmptyAgentsList } from "@/components/helpers/empty-agents-view";
-import { columns } from "@/modules/agents/ui/components/columns";
-import { DataTable } from "@/modules/agents/ui/components/data-table";
 import { useTRPC } from "@/trpc/client";
 
 export function AgentView() {
@@ -12,13 +9,13 @@ export function AgentView() {
 
   return (
     <div className="p-6">
-      <DataTable columns={columns} data={data} />
-      {data.length === 0 ? (
-        <EmptyAgentsList
-          description="Create an agent to join your meetings. Each agent will follow your instructions and can interact with participants during the call."
-          title="Create your first agent"
-        />
-      ) : null}
+      <p
+        className={
+          "wrap-break-word whitespace-pre-wrap font-mono text-muted-foreground text-sm leading-relaxed"
+        }
+      >
+        {JSON.stringify(data, null, 2)}
+      </p>
     </div>
   );
 }
