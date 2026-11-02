@@ -1,14 +1,18 @@
-import { SearchIcon } from "lucide-react";
+import { SearchIcon, XIcon } from "lucide-react";
 import type { Dispatch, SetStateAction } from "react";
 
 import {
   Command,
   CommandEmpty,
-  CommandInput,
   CommandItem,
   CommandList,
   CommandResponsiveDialog,
 } from "@/components/ui/command";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 import { Kbd } from "@/components/ui/kbd";
 
 type Props = {
@@ -19,8 +23,16 @@ type Props = {
 export function DashboardCommand(props: Props) {
   return (
     <CommandResponsiveDialog onOpenChange={props.setOpen} open={props.open}>
-      <Command className="flex gap-3" label="Search conversations and agents">
-        <CommandInput placeholder="Search conversations and agents..." />
+      <Command className="flex gap-3">
+        <InputGroup>
+          <InputGroupAddon align={"inline-start"}>
+            <SearchIcon />
+          </InputGroupAddon>
+          <InputGroupAddon align={"inline-end"}>
+            <XIcon />
+          </InputGroupAddon>
+          <InputGroupInput placeholder="Search conversations and agents..." />
+        </InputGroup>
         <CommandList>
           <CommandEmpty className="flex flex-col items-center gap-2 px-6 py-12">
             <SearchIcon className="size-5 text-muted-foreground/60" />
@@ -28,11 +40,9 @@ export function DashboardCommand(props: Props) {
               Try a name, topic, or phrase to get started
             </p>
           </CommandEmpty>
+          {/* TODO: Populate with actual user created data*/}
           <CommandItem className="my-1 cursor-pointer">
-            Bob The Builder
-          </CommandItem>
-          <CommandItem className="my-1 cursor-pointer">
-            Jeff Bezos of Amazon
+            Placeholder Agent Entry
           </CommandItem>
         </CommandList>
         <div className="flex items-center justify-end border-t px-3 py-2">

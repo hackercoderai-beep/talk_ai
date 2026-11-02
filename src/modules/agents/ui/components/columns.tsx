@@ -35,10 +35,11 @@ export const columns = columnHelper.columns([
     header: "Agent Name",
   }),
   columnHelper.display({
-    cell: () => (
+    cell: ({ row }) => (
       <Badge variant={"outline"}>
         <VideoIcon className="" />
-        {"5 meetings"}
+        {row.original.meetingCount}{" "}
+        {row.original.meetingCount === 1 ? "meeting" : "meetings"}
       </Badge>
     ),
     header: "Meetings",

@@ -12,7 +12,7 @@ type Props = {
 export default function DashboardLayout({ children }: Props) {
   return (
     <DashboardWelcomeProvider>
-      <SidebarProvider>
+      <SidebarProvider defaultOpen={false}>
         <DashboardSidebar />
         <main className="flex h-screen w-screen flex-col bg-muted">
           <DashboardNavbar />

@@ -19,6 +19,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { agentsInsertSchema } from "@/modules/agents/schemas";
 import type { AgentType } from "@/modules/agents/types";
 import { useTRPC } from "@/trpc/client";
+import { useRouter } from "next/navigation";
+import { toast } from "@/components/ui/toast";
 
 type Props = {
   onSuccess?: () => void;
@@ -45,10 +47,37 @@ export function AgentForm(props: Props) {
   const { initialValues } = props;
   const trpc = useTRPC();
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const isEdit = !!initialValues?.id;
 
-  const createAgent = useMutation(trpc.agents.create.mutationOptions());
+  const createAgent = useMutation(
+    trpc.agents.create.mutationOptions({
+      onSuccess: async () => {
+        await queryClient.invalidateQueries(
+          trpc.agents.getMany.queryOptions({}),
+        );
+
+        if (initialValues?.id) {
+          await queryClient.invalidateQueries(
+            trpc.agents.getOne.queryOptions({ id: initialValues.id }),
+          );
+        }
+        props.onSuccess?.();
+      },
+      onError: (error) => {
+        toast.add({
+          type: "error",
+          description: error.message,
+          priority: "high",
+        });
+
+        if (error.data?.code === "FORBIDDEN") {
+          router.push("/upgrade");
+        }
+      },
+    }),
+  );
 
   const form = useForm({
     defaultValues: {
@@ -77,7 +106,7 @@ export function AgentForm(props: Props) {
       event.stopPropagation();
       await form.handleSubmit();
     },
-    [form]
+    [form],
   );
   return (
     <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
@@ -142,10 +171,10 @@ export function AgentForm(props: Props) {
                               .map((error) =>
                                 typeof error === "string"
                                   ? error
-                                  : error?.message
+                                  : error?.message,
                               )
                               .filter((message): message is string =>
-                                Boolean(message)
+                                Boolean(message),
                               )
                               .join(", ")}
                           </FieldError>
@@ -182,10 +211,12 @@ export function AgentForm(props: Props) {
                         <FieldError role="alert">
                           {field.state.meta.errors
                             .map((error) =>
-                              typeof error === "string" ? error : error?.message
+                              typeof error === "string"
+                                ? error
+                                : error?.message,
                             )
                             .filter((message): message is string =>
-                              Boolean(message)
+                              Boolean(message),
                             )
                             .join(", ")}
                         </FieldError>
