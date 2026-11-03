@@ -2,9 +2,7 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { VideoIcon } from "lucide-react";
 import { GeneratedAvatar } from "@/components/generated-avatar";
-import { Badge } from "@/components/ui/badge";
 import {
   AGENT_DETAIL_GC_TIME,
   AGENT_DETAIL_STALE_TIME,
@@ -16,6 +14,7 @@ type Props = {
   agentId: string;
 };
 
+/** Render the detail panel for an agent while preserving the query cache and loading state. */
 export function AgentDetailQueryView(props: Props) {
   const trpc = useTRPC();
   const { data: agent } = useSuspenseQuery(
@@ -27,16 +26,10 @@ export function AgentDetailQueryView(props: Props) {
       }
     )
   );
-  const agentHasMultipleMeetings = agent.meetingCount > 1;
 
   return (
     <div className="flex flex-1 flex-col gap-y-4 px-4 py-4 md:px-8">
-      <AgentIdViewHeader
-        agentId={props.agentId}
-        agentName={agent.name}
-        onEdit={() => {}}
-        onRemove={() => {}}
-      />
+      <AgentIdViewHeader agentId={props.agentId} agentName={agent.name} />
       <div className="rounded-lg border bg-background">
         <div className="col-span-5 flex flex-col gap-y-5 px-4 py-5">
           <div className="flex items-center gap-x-3">
@@ -48,18 +41,9 @@ export function AgentDetailQueryView(props: Props) {
             <h2 className="font-semibold text-2xl">{agent.name}</h2>
           </div>
 
-          <Badge
-            className="4 flex items-center gap-x-2"
-            variant="primary-outline"
-          >
-            <VideoIcon className="size-4" />
-            {agent.meetingCount}{" "}
-            {agentHasMultipleMeetings ? "meetings" : "meeting"}
-          </Badge>
-
           <div className="flex flex-col gap-y-4">
             <p className="font-semibold text-lg">Instructions</p>
-            <p>{agent.instructions}</p>
+            <p className="whitespace-pre-wrap">{agent.instructions}</p>
           </div>
         </div>
       </div>

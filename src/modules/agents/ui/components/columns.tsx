@@ -1,9 +1,8 @@
 "use client";
 
 import { createColumnHelper } from "@tanstack/react-table";
-import { CornerDownRightIcon, VideoIcon } from "lucide-react";
+import { CornerDownRightIcon } from "lucide-react";
 import { GeneratedAvatar } from "@/components/generated-avatar";
-import { Badge } from "@/components/ui/badge";
 import type { AgentType } from "@/modules/agents/types";
 import type { DataTableFeatures } from "@/modules/agents/ui/components/data-table-features";
 
@@ -33,16 +32,5 @@ export const columns = columnHelper.columns([
       </div>
     ),
     header: "Agent Name",
-  }),
-  columnHelper.display({
-    cell: ({ row }) => (
-      <Badge variant={"outline"}>
-        <VideoIcon className="" />
-        {row.original.meetingCount}{" "}
-        {row.original.meetingCount === 1 ? "meeting" : "meetings"}
-      </Badge>
-    ),
-    header: "Meetings",
-    id: "meetingCount",
   }),
 ]);

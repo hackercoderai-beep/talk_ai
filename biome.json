@@ -40,9 +40,6 @@
       },
       "performance": {
         "noJsxPropsBind": "warn"
-      },
-      "suspicious": {
-        "noEmptyBlockStatements": "off"
       }
     },
     "domains": {

@@ -1,4 +1,3 @@
-import { MoreVerticalIcon, PencilIcon, TrashIcon } from "lucide-react";
 import Link from "next/link";
 import { type ComponentProps, useCallback } from "react";
 import {
@@ -8,22 +7,14 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { AGENTS_PAGE_PATH } from "@/constants";
 
 type Props = {
   agentId: string;
   agentName: string;
-  onEdit: () => void;
-  onRemove: () => void;
 };
 
+/** Render the breadcrumb header for a single agent without any dead action menu items. */
 export function AgentIdViewHeader(props: Props) {
   const renderAgentsLink = useCallback(
     (linkProps: ComponentProps<"a">) => (
@@ -50,23 +41,6 @@ export function AgentIdViewHeader(props: Props) {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-
-      <DropdownMenu modal={false}>
-        <DropdownMenuTrigger render={<Button size="icon" variant="ghost" />}>
-          <MoreVerticalIcon aria-hidden="true" className="size-5" />
-          <span className="sr-only">Agent actions</span>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuItem onClick={props.onEdit}>
-            <PencilIcon className="mr-2 h-4 w-4" />
-            Edit
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={props.onRemove} variant="destructive">
-            <TrashIcon className="mr-2 h-4 w-4" />
-            Delete
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
     </div>
   );
 }
