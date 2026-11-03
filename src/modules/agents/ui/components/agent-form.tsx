@@ -90,10 +90,6 @@ export function AgentForm(props: Props) {
       }
 
       await createAgent.mutateAsync(value);
-      await queryClient.invalidateQueries({
-        queryKey: trpc.agents.getMany.queryKey(),
-      });
-      props.onSuccess?.();
     },
     validators: {
       onSubmit: agentsInsertSchema,

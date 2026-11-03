@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Suspense } from "react";
 
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { DashboardNavbar } from "@/modules/dashboard/ui/components/dashboard-navbar";
@@ -13,7 +14,9 @@ export default function DashboardLayout({ children }: Props) {
   return (
     <DashboardWelcomeProvider>
       <SidebarProvider defaultOpen={false}>
-        <DashboardSidebar />
+        <Suspense fallback={null}>
+          <DashboardSidebar />
+        </Suspense>
         <main className="flex h-screen w-screen flex-col bg-muted">
           <DashboardNavbar />
           {children}

@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { HOME_PAGE_PATH } from "@/constants";
 import { auth } from "@/lib/auth";
 
 export async function unauthenticated() {
@@ -8,7 +9,7 @@ export async function unauthenticated() {
   });
 
   if (session) {
-    return redirect("/dashboard");
+    return redirect(HOME_PAGE_PATH);
   }
 
   return session;
