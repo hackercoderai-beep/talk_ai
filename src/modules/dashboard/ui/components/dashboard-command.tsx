@@ -1,18 +1,20 @@
 import { SearchIcon, XIcon } from "lucide-react";
-import type { Dispatch, SetStateAction } from "react";
+import {
+  type Dispatch,
+  type SetStateAction,
+  useCallback,
+  useState,
+} from "react";
 
 import {
   Command,
   CommandEmpty,
+  CommandInput,
   CommandItem,
   CommandList,
   CommandResponsiveDialog,
 } from "@/components/ui/command";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/components/ui/input-group";
+import { InputGroupButton } from "@/components/ui/input-group";
 import { Kbd } from "@/components/ui/kbd";
 
 type Props = {
@@ -21,18 +23,26 @@ type Props = {
 };
 
 export function DashboardCommand(props: Props) {
+  const [search, setSearch] = useState("");
+  const clearSearch = useCallback(() => setSearch(""), []);
+
   return (
     <CommandResponsiveDialog onOpenChange={props.setOpen} open={props.open}>
-      <Command className="flex gap-3">
-        <InputGroup>
-          <InputGroupAddon align={"inline-start"}>
-            <SearchIcon />
-          </InputGroupAddon>
-          <InputGroupAddon align={"inline-end"}>
+      <Command className="flex gap-3" label="Search conversations and agents">
+        <div className="flex items-center gap-1">
+          <CommandInput
+            onValueChange={setSearch}
+            placeholder="Search conversations and agents..."
+            value={search}
+          />
+          <InputGroupButton
+            aria-label="Clear search"
+            onClick={clearSearch}
+            size="icon-xs"
+          >
             <XIcon />
-          </InputGroupAddon>
-          <InputGroupInput placeholder="Search conversations and agents..." />
-        </InputGroup>
+          </InputGroupButton>
+        </div>
         <CommandList>
           <CommandEmpty className="flex flex-col items-center gap-2 px-6 py-12">
             <SearchIcon className="size-5 text-muted-foreground/60" />

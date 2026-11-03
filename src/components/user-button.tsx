@@ -1,5 +1,6 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import {
   BookOpenCheckIcon,
   ChevronDownIcon,
@@ -39,21 +40,24 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "@/components/ui/toast";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { authClient } from "@/lib/auth-client";
-import { DashboardWelcomeDialog } from "@/modules/dashboard/ui/components/dashboard-welcome-dialog";
 import { useDashboardWelcome } from "@/modules/dashboard/ui/components/dashboard-welcome-context";
+import { DashboardWelcomeDialog } from "@/modules/dashboard/ui/components/dashboard-welcome-dialog";
 
 export function UserButton() {
   const router = useRouter();
   const { state } = useSidebar();
   const isMobile = useIsMobile();
+  const queryClient = useQueryClient();
   const { setOpen } = useDashboardWelcome();
   const { data: session, isPending } = authClient.useSession();
   const handleShowOnboarding = useCallback(() => setOpen(true), [setOpen]);
 
+  /** Clear the cached data before returning a signed-out user to the auth screen. */
   const handleSignOut = useCallback(async () => {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
+          queryClient.clear();
           router.push("/sign-in");
           toast.add({
             title: "Signed out successfully",
@@ -62,7 +66,7 @@ export function UserButton() {
         },
       },
     });
-  }, [router]);
+  }, [queryClient, router]);
 
   if (isPending) {
     return <UserButtonSkeleton />;

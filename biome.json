@@ -34,6 +34,12 @@
             "style": "type"
           }
         }
+      },
+      "complexity": {
+        "noVoid": "off"
+      },
+      "performance": {
+        "noJsxPropsBind": "warn"
       }
     },
     "domains": {

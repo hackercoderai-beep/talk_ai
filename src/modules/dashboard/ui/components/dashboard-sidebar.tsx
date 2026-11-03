@@ -83,6 +83,7 @@ export function DashboardSidebar() {
                       pathname === item.href ? "bg-sidebar-accent" : ""
                     )}
                     render={<Link href={item.href} />}
+                    tooltip={item.label}
                   >
                     <item.icon />
                     <span>{item.label}</span>
@@ -109,6 +110,7 @@ export function DashboardSidebar() {
                       pathname === item.href ? "bg-sidebar-accent" : ""
                     )}
                     render={<Link href={item.href} />}
+                    tooltip={item.label}
                   >
                     <item.icon />
                     <span>{item.label}</span>
