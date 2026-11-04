@@ -1,0 +1,127 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  merge_group:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  actionlint:
+    name: Lint workflows
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+
+      - uses: reviewdog/action-actionlint@619a81ec64ff8c0211cd6146eb2b21e8f1d7f440 # v1.81.1
+        with:
+          fail_level: error
+
+  lint:
+    name: Lint & format
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+          fetch-depth: 0 # biome --changed needs full history to diff against
+
+      - uses: ./.github/actions/setup-toolchain
+
+      # The repo has ~870 pre-existing lint violations predating this pipeline
+      # (see EZZ-10 PR notes). Linting the full tree would fail every run, so
+      # this gates only the files touched since the diff base until that debt
+      # is paid down, per the PRD's VA-02 baseline allowance.
+      - name: Determine diff base
+        id: base
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            since="${{ github.event.before }}"
+            if [ -z "$since" ] || [ "$since" = "0000000000000000000000000000000000000000" ]; then
+              since="origin/main~1"
+            fi
+          else
+            since="origin/main"
+          fi
+          echo "since=$since" >> "$GITHUB_OUTPUT"
+
+      - name: Lint changed files
+        run: bunx biome check --changed --since="${{ steps.base.outputs.since }}"
+
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup-toolchain
+
+      - run: bun run typecheck
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    env:
+      # Build-time placeholders only, never real secrets. `next build` evaluates
+      # src/lib/auth.ts at module scope, which throws if OAuth credentials are
+      # absent. drizzle's neon-http client (src/lib/db.ts) is lazy and never
+      # opens a connection at build time, so a syntactically-shaped URL is enough.
+      DATABASE_URL: "postgres://ci:ci@localhost:5432/ci"
+      BETTER_AUTH_SECRET: "ci-placeholder-secret-not-for-use"
+      BETTER_AUTH_URL: "http://localhost:3000"
+      GITHUB_CLIENT_ID: "ci-placeholder"
+      GITHUB_CLIENT_SECRET: "ci-placeholder"
+      GOOGLE_CLIENT_ID: "ci-placeholder"
+      GOOGLE_CLIENT_SECRET: "ci-placeholder"
+      NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup-toolchain
+
+      - run: bun run build
+
+      - name: Upload build output
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: next-build-${{ github.sha }}
+          path: .next
+          retention-days: 7
+
+  ci-success:
+    name: CI success
+    if: always()
+    needs: [actionlint, lint, typecheck, build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Fail if any required job did not succeed
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: exit 1
