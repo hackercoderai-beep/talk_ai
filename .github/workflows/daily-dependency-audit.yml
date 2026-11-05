@@ -1,0 +1,46 @@
+name: Daily Dependency Audit
+
+on:
+  schedule:
+    - cron: '0 7 * * *'  # Every day at 7am UTC
+  workflow_dispatch:
+
+jobs:
+  dependency-audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run audit and update with Claude
+        uses: anthropics/claude-code-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            You are a security-conscious engineering assistant. Audit this TypeScript project's dependencies.
+
+            Steps:
+            1. Run `npm audit --json` and capture the output
+            2. Run `npx npm-check-updates --json` to find outdated packages
+            3. Analyze the results:
+               - Flag any HIGH or CRITICAL vulnerabilities immediately
+               - Identify packages with safe patch/minor updates (semver-safe)
+               - Skip major version bumps that may have breaking changes
+            4. For safe updates only:
+               - Run `npx npm-check-updates -u --target patch` to apply patch updates
+               - Run `npm install` to update package-lock.json
+            5. If any files changed, create a PR:
+               - Branch name: `chore/dep-audit-$(date +'%Y-%m-%d')`
+               - Use `gh pr create` with a clear title and body listing what changed and why
+               - If there are HIGH/CRITICAL vulns that need manual review, mention them in the PR body
+
+            Only create a PR if there are actual changes to commit.
