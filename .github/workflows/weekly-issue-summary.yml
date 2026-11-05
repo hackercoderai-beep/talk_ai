@@ -1,0 +1,35 @@
+name: Weekly Issue Summary
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'  # Every Monday at 9am UTC
+  workflow_dispatch:      # Allow manual trigger from GitHub UI
+
+jobs:
+  summarize-issues:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Summarize open issues with Claude
+        uses: anthropics/claude-code-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            You are a helpful engineering assistant. Use the GitHub CLI (`gh`) to analyze this repository's open issues.
+
+            Steps:
+            1. Run `gh issue list --repo $GITHUB_REPOSITORY --state open --limit 100 --json number,title,labels,createdAt,body,comments`
+            2. Group issues by theme (e.g. bugs, features, docs, performance, UX)
+            3. Highlight the most critical/urgent ones based on labels and age
+            4. Suggest a focused list of 3-5 things to work on this week, with reasoning
+
+            Then create a new GitHub issue with:
+            - Title: "Weekly Issue Summary — $(date +'%Y-%m-%d')"
+            - Label: "summary" (create it if it doesn't exist)
+            - Body: the full structured analysis in markdown
+
+            Use `gh issue create --repo $GITHUB_REPOSITORY --title "..." --body "..." --label summary`

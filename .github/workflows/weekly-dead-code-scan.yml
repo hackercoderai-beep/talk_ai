@@ -1,0 +1,44 @@
+name: Weekly Dead Code Scan
+
+on:
+  schedule:
+    - cron: '0 6 * * 3'  # Every Wednesday at 6am UTC
+  workflow_dispatch:
+
+jobs:
+  dead-code-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Scan for dead code with Claude
+        uses: anthropics/claude-code-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            You are a code quality assistant. Scan this TypeScript project for unused code.
+
+            Steps:
+            1. Run `npx ts-prune 2>&1` to find unused exports
+            2. Run `npx knip --reporter json 2>&1` to find unused files, dependencies, and exports (install if needed)
+            3. Analyze results:
+               - Identify exported symbols that are never imported
+               - Identify files that are never referenced
+               - Skip test files and type declaration files from the report
+               - Group findings by severity (safe to delete vs needs investigation)
+            4. If findings exist:
+               - Create a GitHub issue:
+                 - Title: "Dead Code Report — $(date +'%Y-%m-%d')"
+                 - Label: "tech-debt" (create if missing)
+                 - Body: organized list of findings with file paths and suggested action (delete / investigate)
+            5. If nothing found: no issue needed.
