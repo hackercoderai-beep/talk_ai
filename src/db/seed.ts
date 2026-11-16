@@ -1,37 +1,22 @@
 import "dotenv/config";
-import { nanoid } from "nanoid";
-import { drizzle } from "drizzle-orm/neon-http";
 import { eq } from "drizzle-orm";
-import { agents, meetings, user, type meetingStatus } from "@/db/schema";
+import { drizzle } from "drizzle-orm/neon-http";
+import { nanoid } from "nanoid";
+import { agents, type meetingStatus, meetings, user } from "@/db/schema";
 
-const SEED_USER_EMAIL = process.env.SEED_USER_EMAIL ?? "hacker.coder.ai@gmail.com";
+const SEED_USER_EMAIL =
+  process.env.SEED_USER_EMAIL ?? "hacker.coder.ai@gmail.com";
 
 const db = drizzle(process.env.DATABASE_URL as string);
 
 type MeetingStatusValue = (typeof meetingStatus.enumValues)[number];
 
 const TOPICS_BY_AGENT: Record<string, string[]> = {
-  "Math Tutor": [
-    "Algebra fundamentals review",
-    "Quadratic equations practice",
-    "Linear systems homework help",
-    "Factoring polynomials session",
-  ],
   "Biology Tutor": [
     "Cell structure review",
     "Photosynthesis deep dive",
     "Genetics homework help",
     "Human anatomy overview",
-  ],
-  "Statistics Tutor": [
-    "Probability distributions review",
-    "Hypothesis testing practice",
-    "Regression analysis walkthrough",
-  ],
-  "Physics Tutor": [
-    "Newton's laws review",
-    "Kinematics problem set",
-    "Thermodynamics basics",
   ],
   "Calculus Tutor": [
     "Limits and continuity",
@@ -42,6 +27,22 @@ const TOPICS_BY_AGENT: Record<string, string[]> = {
     "German grammar basics",
     "Conversational practice: Alltag",
     "Vocabulary building session",
+  ],
+  "Math Tutor": [
+    "Algebra fundamentals review",
+    "Quadratic equations practice",
+    "Linear systems homework help",
+    "Factoring polynomials session",
+  ],
+  "Physics Tutor": [
+    "Newton's laws review",
+    "Kinematics problem set",
+    "Thermodynamics basics",
+  ],
+  "Statistics Tutor": [
+    "Probability distributions review",
+    "Hypothesis testing practice",
+    "Regression analysis walkthrough",
   ],
 };
 
@@ -66,19 +67,19 @@ function buildMeeting(
   agentId: string,
   userId: string,
   status: MeetingStatusValue,
-  createdDaysAgo: number,
+  createdDaysAgo: number
 ) {
   const id = nanoid();
   const createdAt = daysAgo(createdDaysAgo);
 
   const base = {
+    agentId,
+    createdAt,
     id,
     name,
-    userId,
-    agentId,
     status,
-    createdAt,
     updatedAt: createdAt,
+    userId,
   };
 
   if (status === "scheduled") {
@@ -94,21 +95,21 @@ function buildMeeting(
   const endedAt = minutesAfter(startedAt, 20 + Math.floor(Math.random() * 40));
 
   if (status === "cancelled") {
-    return { ...base, startedAt, endedAt };
+    return { ...base, endedAt, startedAt };
   }
 
   if (status === "processing") {
-    return { ...base, startedAt, endedAt };
+    return { ...base, endedAt, startedAt };
   }
 
   // completed
   return {
     ...base,
-    startedAt,
     endedAt,
-    transcriptURL: `https://storage.example.com/transcripts/${id}.vtt`,
     recordingURL: `https://storage.example.com/recordings/${id}.mp4`,
+    startedAt,
     summary: `Summary of "${name}": the student and ${name.split(" ")[0]} tutor covered the session's core concepts, worked through practice problems together, and identified follow-up topics for next time.`,
+    transcriptURL: `https://storage.example.com/transcripts/${id}.vtt`,
   };
 }
 
@@ -129,7 +130,7 @@ async function main() {
 
   if (userAgents.length === 0) {
     throw new Error(
-      `User "${SEED_USER_EMAIL}" has no agents yet. Create some agents before seeding meetings.`,
+      `User "${SEED_USER_EMAIL}" has no agents yet. Create some agents before seeding meetings.`
     );
   }
 
@@ -147,7 +148,9 @@ async function main() {
       const status = STATUS_CYCLE[statusIndex % STATUS_CYCLE.length];
       statusIndex += 1;
 
-      rows.push(buildMeeting(topic, agent.id, existingUser.id, status, dayOffset));
+      rows.push(
+        buildMeeting(topic, agent.id, existingUser.id, status, dayOffset)
+      );
       dayOffset += 1;
     }
   }

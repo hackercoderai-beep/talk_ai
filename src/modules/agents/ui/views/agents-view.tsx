@@ -3,7 +3,7 @@
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
-import { EmptyAgentsList } from "@/components/helpers/empty-view";
+import { EmptyList } from "@/components/helpers/empty-view";
 import {
   AGENT_DETAIL_GC_TIME,
   AGENT_DETAIL_STALE_TIME,
@@ -23,7 +23,7 @@ export function AgentView() {
   const { data } = useSuspenseQuery(
     trpc.agents.getMany.queryOptions({
       ...filters,
-    }),
+    })
   );
   const handleAgentClick = useCallback(
     (agent: AgentType) => {
@@ -32,16 +32,16 @@ export function AgentView() {
         {
           gcTime: AGENT_DETAIL_GC_TIME,
           staleTime: AGENT_DETAIL_STALE_TIME,
-        },
+        }
       );
       queryClient.setQueryData(agentQueryOptions.queryKey, agent);
       router.push(`/dashboard/agents/${agent.id}`);
     },
-    [queryClient, router, trpc],
+    [queryClient, router, trpc]
   );
   const handlePageChange = useCallback(
     (page: number) => setFilters({ page }),
-    [setFilters],
+    [setFilters]
   );
 
   return (
@@ -57,7 +57,7 @@ export function AgentView() {
         totalPages={data.totalPages}
       />
       {data.items.length === 0 ? (
-        <EmptyAgentsList
+        <EmptyList
           description="Create an agent to join your meetings. Each agent will follow your instructions and can interact with participants during the call."
           title="Create your first agent"
         />

@@ -5,8 +5,8 @@ import { ErrorBoundary } from "react-error-boundary";
 import { ErrorView } from "@/components/helpers/error-view";
 import { LoadingView } from "@/components/helpers/loading-view";
 import { loadSearchParams } from "@/modules/agents/params";
-import { AgentView } from "@/modules/agents/ui/views/agents-view";
 import { AgentsListHeader } from "@/modules/agents/ui/components/agents-list-header";
+import { AgentView } from "@/modules/agents/ui/views/agents-view";
 import { getQueryClient, trpc } from "@/trpc/server";
 
 type Props = {
@@ -19,7 +19,7 @@ async function AgentsPageContent(props: Props) {
   await queryClient.prefetchQuery(
     trpc.agents.getMany.queryOptions({
       ...filters,
-    }),
+    })
   );
 
   return (

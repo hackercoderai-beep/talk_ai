@@ -1,9 +1,9 @@
 "use client";
 
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { ErrorView } from "@/components/helpers/error-view";
 import { LoadingView } from "@/components/helpers/loading-view";
 import { useTRPC } from "@/trpc/client";
-import { useSuspenseQuery } from "@tanstack/react-query";
 
 export function MeetingsView() {
   const trpc = useTRPC();
@@ -25,8 +25,8 @@ export function MeetingsLoadingView() {
 export function MeetingsErrorView() {
   return (
     <ErrorView
-      title="Failed to load meetings"
       description="Please try again later."
+      title="Failed to load meetings"
     />
   );
 }

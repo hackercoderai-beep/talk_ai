@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { AgentLoadingView } from "@/components/helpers/loading-view";
+import { LoadingView } from "@/components/helpers/loading-view";
 import { AgentIdView } from "@/modules/agents/ui/views/agents-id-view";
 
 type Props = {
@@ -14,7 +14,7 @@ async function AgentWithIdContent(props: Props) {
 
 export default function AgentWithIdPage(props: Props) {
   return (
-    <Suspense fallback={<AgentLoadingView />}>
+    <Suspense fallback={<LoadingView />}>
       <AgentWithIdContent params={props.params} />
     </Suspense>
   );
