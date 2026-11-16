@@ -1,6 +1,6 @@
 import { Spinner } from "@/components/ui/spinner";
 
-export function AgentLoadingView() {
+export function LoadingView() {
   return (
     <div
       aria-live="polite"

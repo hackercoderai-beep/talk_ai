@@ -3,9 +3,7 @@ import { getAuthErrorMessage } from "@/constants/auth-errors";
 
 describe("getAuthErrorMessage", () => {
   test("maps a known sign-in error code to its contextual message", () => {
-    expect(
-      getAuthErrorMessage({ code: "ACCOUNT_NOT_FOUND" }, "sign-in")
-    ).toBe(
+    expect(getAuthErrorMessage({ code: "ACCOUNT_NOT_FOUND" }, "sign-in")).toBe(
       "Incorrect email or password. Double-check your credentials and try again."
     );
   });
@@ -20,7 +18,7 @@ describe("getAuthErrorMessage", () => {
 
   test("a sign-up-only code does not match in the sign-in context", () => {
     const message = getAuthErrorMessage(
-      { code: "USER_ALREADY_EXISTS", status: 400, message: "raw message" },
+      { code: "USER_ALREADY_EXISTS", message: "raw message", status: 400 },
       "sign-in"
     );
 
@@ -54,7 +52,7 @@ describe("getAuthErrorMessage", () => {
   test("falls back to the server-provided message for other statuses", () => {
     expect(
       getAuthErrorMessage(
-        { status: 400, message: "Custom server message" },
+        { message: "Custom server message", status: 400 },
         "sign-in"
       )
     ).toBe("Custom server message");

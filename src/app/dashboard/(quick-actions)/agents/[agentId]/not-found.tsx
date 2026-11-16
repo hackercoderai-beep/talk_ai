@@ -1,4 +1,4 @@
-import { AgentErrorView } from "@/components/helpers/agent-error-view";
+import { ErrorView } from "@/components/helpers/error-view";
 
 export default function AgentNotFound() {
   return (

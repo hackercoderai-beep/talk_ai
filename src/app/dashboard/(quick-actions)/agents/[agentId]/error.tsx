@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { AgentErrorView } from "@/components/helpers/agent-error-view";
+import { ErrorView } from "@/components/helpers/error-view";
 
 type Props = {
   error: Error & { digest?: string };

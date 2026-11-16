@@ -2,10 +2,10 @@ import { describe, expect, test } from "bun:test";
 import { formSchema } from "@/constants/schemas/form/sign-up";
 
 const base = {
-  name: "Tim Cook",
-  email: "tim.cook@apple.com",
-  password: "supersecret",
   confirmPassword: "supersecret",
+  email: "tim.cook@apple.com",
+  name: "Tim Cook",
+  password: "supersecret",
 };
 
 describe("sign-up formSchema", () => {

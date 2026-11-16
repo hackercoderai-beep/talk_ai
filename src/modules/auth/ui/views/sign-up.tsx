@@ -1,10 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  Card,
-  CardContent
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { SignUpForm } from "@/modules/auth/forms/sign-up";
 
 export function SignUpView() {
@@ -16,7 +13,11 @@ export function SignUpView() {
             <SignUpForm />
           </div>
           <div className="bg-linear-to-br from-emerald-600 to-emerald-900 relative hidden md:flex flex-col gap-y-4 items-center justify-center">
-            <img src="/logo.svg" alt="Logo" className="h-[100px] w-[100px] object-contain drop-shadow-[0_0_20px_rgba(16,185,129,0.4)]" />
+            <img
+              src="/logo.svg"
+              alt="Logo"
+              className="h-25 w-25 object-contain drop-shadow-[0_0_20px_rgba(16,185,129,0.4)]"
+            />
             <p className="text-2xl font-semibold text-white drop-shadow-lg">
               Talk AI
             </p>
@@ -25,7 +26,10 @@ export function SignUpView() {
       </Card>
       <p className="text-center text-sm text-muted-foreground">
         Already have an account?{" "}
-        <Link href="/sign-in" className="font-medium underline underline-offset-4 hover:text-foreground">
+        <Link
+          href="/sign-in"
+          className="font-medium underline underline-offset-4 hover:text-foreground"
+        >
           Sign in
         </Link>
       </p>

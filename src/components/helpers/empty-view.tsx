@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export function EmptyAgentsList({
+export function EmptyList({
   title,
   description,
 }: {

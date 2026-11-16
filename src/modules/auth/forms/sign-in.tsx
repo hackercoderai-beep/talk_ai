@@ -59,7 +59,7 @@ export function SignInForm() {
             description: "Continue with your provider to finish signing in",
             title: "Redirecting...",
           },
-        }
+        },
       );
     } catch {
       // Error toast is already shown by toast.promise
@@ -99,7 +99,7 @@ export function SignInForm() {
             description: "You are now signed in — taking you to your dashboard",
             title: "Welcome back",
           },
-        }
+        },
       );
 
       router.push("/dashboard");
@@ -114,7 +114,7 @@ export function SignInForm() {
       event.preventDefault();
       form.handleSubmit();
     },
-    [form.handleSubmit]
+    [form.handleSubmit],
   );
 
   return (
@@ -125,7 +125,7 @@ export function SignInForm() {
       </CardHeader>
 
       <CardContent>
-        <FieldGroup className="min-h-4xl bg-background">
+        <FieldGroup className="min-h-4xl">
           <form.AppField name="email">
             {(field) => (
               <field.Input

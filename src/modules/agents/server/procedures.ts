@@ -12,7 +12,7 @@ import {
 import { agents } from "@/db/schema";
 import { db } from "@/lib/db";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
-import { agentsInsertSchema } from "../schemas";
+import { agentsInsertSchema } from "@/modules/agents/schemas";
 
 export const agentsRouter = createTRPCRouter({
   create: protectedProcedure
@@ -38,7 +38,7 @@ export const agentsRouter = createTRPCRouter({
           .max(MAX_PAGE_SIZE)
           .default(DEFAULT_PAGE_SIZE),
         search: z.string().nullish(),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       const { search, page, pageSize } = input;
@@ -52,8 +52,8 @@ export const agentsRouter = createTRPCRouter({
         .where(
           and(
             eq(agents.userId, ctx.auth.user.id),
-            search ? ilike(agents.name, `%${search}%`) : undefined
-          )
+            search ? ilike(agents.name, `%${search}%`) : undefined,
+          ),
         )
         .orderBy(desc(agents.createdAt), desc(agents.id))
         .limit(pageSize)
@@ -65,8 +65,8 @@ export const agentsRouter = createTRPCRouter({
         .where(
           and(
             eq(agents.userId, ctx.auth.user.id),
-            search ? ilike(agents.name, `%${search}%`) : undefined
-          )
+            search ? ilike(agents.name, `%${search}%`) : undefined,
+          ),
         );
 
       const totalPages = Math.ceil(totalEntriesCount.count / pageSize);
@@ -81,7 +81,7 @@ export const agentsRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string(),
-      })
+      }),
     )
     /** Return a single agent only for the signed-in user, or raise a not-found error when it is missing. */
     .query(async ({ ctx, input }) => {
@@ -92,7 +92,7 @@ export const agentsRouter = createTRPCRouter({
         })
         .from(agents)
         .where(
-          and(eq(agents.id, input.id), eq(agents.userId, ctx.auth.user.id))
+          and(eq(agents.id, input.id), eq(agents.userId, ctx.auth.user.id)),
         );
 
       if (!existingAgent) {

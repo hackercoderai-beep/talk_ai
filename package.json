@@ -6,6 +6,7 @@
     "build": "next build",
     "check": "ultracite check",
     "db:push": "drizzle-kit push",
+    "db:seed": "tsx src/db/seed.ts",
     "db:studio": "drizzle-kit studio",
     "dev": "next dev",
     "fix": "ultracite fix",
@@ -60,6 +61,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.5.15",
     "@tailwindcss/turbopack": "^4",
+    "@types/bun": "^1.4.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-import { AgentLoadingView } from "@/components/helpers/agent-loading-view";
-import { AgentIdView } from "@/modules/agents/ui/agents-id-view";
+import { AgentLoadingView } from "@/components/helpers/loading-view";
+import { AgentIdView } from "@/modules/agents/ui/views/agents-id-view";
 
 type Props = {
   params: Promise<{ agentId: string }>;
