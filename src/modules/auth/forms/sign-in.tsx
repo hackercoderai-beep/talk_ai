@@ -125,7 +125,7 @@ export function SignInForm() {
       </CardHeader>
 
       <CardContent>
-        <FieldGroup className="min-h-4xl bg-background">
+        <FieldGroup className="min-h-4xl">
           <form.AppField name="email">
             {(field) => (
               <field.Input

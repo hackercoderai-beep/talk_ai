@@ -2,11 +2,11 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import type { SearchParams } from "nuqs";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { AgentErrorView } from "@/components/helpers/agent-error-view";
-import { AgentLoadingView } from "@/components/helpers/agent-loading-view";
+import { ErrorView } from "@/components/helpers/error-view";
+import { LoadingView } from "@/components/helpers/loading-view";
 import { loadSearchParams } from "@/modules/agents/params";
-import { AgentView } from "@/modules/agents/ui/agents-view";
 import { AgentsListHeader } from "@/modules/agents/ui/components/agents-list-header";
+import { AgentView } from "@/modules/agents/ui/views/agents-view";
 import { getQueryClient, trpc } from "@/trpc/server";
 
 type Props = {
@@ -19,15 +19,15 @@ async function AgentsPageContent(props: Props) {
   await queryClient.prefetchQuery(
     trpc.agents.getMany.queryOptions({
       ...filters,
-    }),
+    })
   );
 
   return (
     <>
       <AgentsListHeader />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Suspense fallback={<AgentLoadingView />}>
-          <ErrorBoundary fallback={<AgentErrorView />}>
+        <Suspense fallback={<LoadingView />}>
+          <ErrorBoundary fallback={<ErrorView />}>
             <AgentView />
           </ErrorBoundary>
         </Suspense>
@@ -38,7 +38,7 @@ async function AgentsPageContent(props: Props) {
 
 export default function AgentsPage(props: Props) {
   return (
-    <Suspense fallback={<AgentLoadingView />}>
+    <Suspense fallback={<LoadingView />}>
       <AgentsPageContent searchParams={props.searchParams} />
     </Suspense>
   );

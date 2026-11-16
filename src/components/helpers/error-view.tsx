@@ -8,7 +8,7 @@ type Props = {
   onRetry?: () => void;
 };
 
-export function AgentErrorView({
+export function ErrorView({
   agentName,
   title = "Failed to load the information.",
   description = agentName

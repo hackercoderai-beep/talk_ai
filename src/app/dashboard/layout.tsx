@@ -27,7 +27,7 @@ export default function DashboardLayout({ children }: Props) {
         >
           <DashboardSidebar />
         </Suspense>
-        <main className="flex h-screen w-screen flex-col bg-muted">
+        <main className="flex min-h-svh min-w-0 flex-1 flex-col bg-muted">
           <DashboardNavbar />
           {children}
         </main>

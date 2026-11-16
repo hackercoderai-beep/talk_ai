@@ -11,8 +11,8 @@ import {
 } from "@/constants";
 import { agents } from "@/db/schema";
 import { db } from "@/lib/db";
+import { agentsInsertSchema } from "@/modules/agents/schemas";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
-import { agentsInsertSchema } from "../schemas";
 
 export const agentsRouter = createTRPCRouter({
   create: protectedProcedure

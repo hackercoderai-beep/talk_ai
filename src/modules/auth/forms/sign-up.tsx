@@ -81,7 +81,7 @@ export function SignUpForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <FieldGroup className="min-h-4xl bg-background">
+        <FieldGroup className="min-h-4xl">
           <form.AppField name="name">
             {(field) => (
               <field.Input label="Name" placeholder={placeholderValues.name} />

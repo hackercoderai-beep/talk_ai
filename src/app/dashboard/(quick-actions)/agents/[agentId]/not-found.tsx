@@ -1,8 +1,8 @@
-import { AgentErrorView } from "@/components/helpers/agent-error-view";
+import { ErrorView } from "@/components/helpers/error-view";
 
 export default function AgentNotFound() {
   return (
-    <AgentErrorView
+    <ErrorView
       description="This agent may have been deleted or you may not have access."
       title="Agent not found"
     />

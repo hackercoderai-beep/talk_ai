@@ -79,6 +79,29 @@ jobs:
 
       - run: bun run typecheck
 
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      checks: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup-toolchain
+
+      - name: Run tests
+        run: bun run test:ci | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish test results
+        if: always()
+        uses: mikepenz/action-junit-report@4a26df3e2ae132254ba12a53f65a388d0961e786 # v6.7.0
+        with:
+          report_paths: junit.xml
+
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -118,7 +141,7 @@ jobs:
   ci-success:
     name: CI success
     if: always()
-    needs: [actionlint, lint, typecheck, build]
+    needs: [actionlint, lint, typecheck, test, build]
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
