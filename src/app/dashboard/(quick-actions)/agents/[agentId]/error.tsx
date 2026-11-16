@@ -13,5 +13,5 @@ export default function AgentDetailError({ error, reset }: Props) {
     console.error(error);
   }, [error]);
 
-  return <AgentErrorView onRetry={reset} />;
+  return <ErrorView onRetry={reset} />;
 }

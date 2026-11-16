@@ -20,7 +20,7 @@ const ClientOnlyAgentQuery = dynamic(
       (module) => module.AgentDetailQueryView,
     ),
   {
-    loading: () => <AgentLoadingView />,
+    loading: () => <LoadingView />,
     ssr: false,
   },
 );
@@ -65,7 +65,7 @@ function AgentDetailErrorFallback({
     return null;
   }
 
-  return <AgentErrorView onRetry={resetErrorBoundary} />;
+  return <ErrorView onRetry={resetErrorBoundary} />;
 }
 
 export function AgentIdView({ agentId }: Props) {
@@ -76,7 +76,7 @@ export function AgentIdView({ agentId }: Props) {
           FallbackComponent={AgentDetailErrorFallback}
           onReset={reset}
         >
-          <Suspense fallback={<AgentLoadingView />}>
+          <Suspense fallback={<LoadingView />}>
             <ClientOnlyAgentQuery agentId={agentId} />
           </Suspense>
         </ErrorBoundary>

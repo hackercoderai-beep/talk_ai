@@ -26,8 +26,8 @@ async function AgentsPageContent(props: Props) {
     <>
       <AgentsListHeader />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Suspense fallback={<AgentLoadingView />}>
-          <ErrorBoundary fallback={<AgentErrorView />}>
+        <Suspense fallback={<LoadingView />}>
+          <ErrorBoundary fallback={<ErrorView />}>
             <AgentView />
           </ErrorBoundary>
         </Suspense>
@@ -38,7 +38,7 @@ async function AgentsPageContent(props: Props) {
 
 export default function AgentsPage(props: Props) {
   return (
-    <Suspense fallback={<AgentLoadingView />}>
+    <Suspense fallback={<LoadingView />}>
       <AgentsPageContent searchParams={props.searchParams} />
     </Suspense>
   );
