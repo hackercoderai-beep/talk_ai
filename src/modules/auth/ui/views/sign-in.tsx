@@ -8,7 +8,7 @@ export function SignInView() {
   return (
     <div className="flex flex-col gap-6">
       <Card className="min-h-xl min-w-xl p-0">
-        <CardContent className="grid p-0 ">
+        <CardContent className="grid p-0">
           <div className="grid p-0 md:grid-cols-2">
             <SignInForm />
             <div

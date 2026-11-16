@@ -17,12 +17,12 @@ type Props = {
 const ClientOnlyAgentQuery = dynamic(
   () =>
     import("@/modules/agents/ui/components/agent-detail-query-view").then(
-      (module) => module.AgentDetailQueryView,
+      (module) => module.AgentDetailQueryView
     ),
   {
     loading: () => <LoadingView />,
     ssr: false,
-  },
+  }
 );
 
 /** Present a recovery path for transient failures and redirect unauthorized users back to sign in. */

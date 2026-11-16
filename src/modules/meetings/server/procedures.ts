@@ -1,7 +1,7 @@
 // import { TRPCError } from "@trpc/server";
 
 import { TRPCError } from "@trpc/server";
-import { and, count, desc, eq, getTableColumns, ilike, sql } from "drizzle-orm";
+import { and, count, desc, eq, getTableColumns, ilike } from "drizzle-orm";
 import { z } from "zod";
 import {
   DEFAULT_PAGE,
@@ -24,7 +24,7 @@ export const meetingsRouter = createTRPCRouter({
           .max(MAX_PAGE_SIZE)
           .default(DEFAULT_PAGE_SIZE),
         search: z.string().nullish(),
-      }),
+      })
     )
     .query(async ({ ctx, input }) => {
       const { search, page, pageSize } = input;
@@ -37,8 +37,8 @@ export const meetingsRouter = createTRPCRouter({
         .where(
           and(
             eq(meetings.userId, ctx.auth.user.id),
-            search ? ilike(meetings.name, `%${search}%`) : undefined,
-          ),
+            search ? ilike(meetings.name, `%${search}%`) : undefined
+          )
         )
         .orderBy(desc(meetings.createdAt), desc(meetings.id))
         .limit(pageSize)
@@ -50,8 +50,8 @@ export const meetingsRouter = createTRPCRouter({
         .where(
           and(
             eq(meetings.userId, ctx.auth.user.id),
-            search ? ilike(meetings.name, `%${search}%`) : undefined,
-          ),
+            search ? ilike(meetings.name, `%${search}%`) : undefined
+          )
         );
 
       const totalPages = Math.ceil(totalEntriesCount.count / pageSize);
@@ -67,7 +67,7 @@ export const meetingsRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string(),
-      }),
+      })
     )
     /** Return a single meeting only for the signed-in user, or raise a not-found error when it is missing. */
     .query(async ({ ctx, input }) => {
@@ -77,7 +77,7 @@ export const meetingsRouter = createTRPCRouter({
         })
         .from(meetings)
         .where(
-          and(eq(meetings.id, input.id), eq(meetings.userId, ctx.auth.user.id)),
+          and(eq(meetings.id, input.id), eq(meetings.userId, ctx.auth.user.id))
         );
 
       if (!existingMeeting) {

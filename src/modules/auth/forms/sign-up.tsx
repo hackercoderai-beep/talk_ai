@@ -53,7 +53,7 @@ export function SignUpForm() {
             description: "Welcome to Talk AI — taking you to your dashboard",
             title: "Account created",
           },
-        },
+        }
       );
     } catch {
       // Error toast is already shown by toast.promise
@@ -69,7 +69,7 @@ export function SignUpForm() {
       event.preventDefault();
       form.handleSubmit();
     },
-    [form.handleSubmit],
+    [form.handleSubmit]
   );
 
   return (
